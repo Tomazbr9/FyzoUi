@@ -9,7 +9,7 @@ export class AuthGuard {
         const token = localStorage.getItem('token');
         
         if (!token) {
-            this.router.navigate(['/auth']);
+            this.router.navigate(['/login']);
             return false;
         }
         return true;

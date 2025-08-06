@@ -6,12 +6,11 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
-  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './auth.html',
-  styleUrls: ['./auth.scss']
+  templateUrl: './login.html',
+  styleUrl: './login.scss'
 })
-export class AuthComponent {
+export class LoginComponent {
 
   loginForm: FormGroup 
 

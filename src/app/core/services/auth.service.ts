@@ -8,7 +8,7 @@ interface LoginResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private apiUrl = 'https://localhost:80/auth';
+    private apiUrl = 'http://localhost:8080/auth';
 
     constructor(private http: HttpClient){}
 
@@ -23,7 +23,9 @@ export class AuthService {
     }
 
     register(username: string, email: string, password: string): Observable<any> {
-        return this.http.post(`${this.apiUrl}/register`, { username, email, password });
+        const body = { username, email, password, role: 'ROLE_CUSTOMER' };
+        console.log('Registering user:', body);
+        return this.http.post(`${this.apiUrl}/register`, body);
     }
 
     logout(): void {
