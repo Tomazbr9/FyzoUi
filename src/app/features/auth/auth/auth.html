@@ -1,1 +1,14 @@
-<h1>Auth</h1>
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+    <h1>Login</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <input type="text" id="username" formControlName="username" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" />
+        </div>
+        <div class="mb-4">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="password" formControlName="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" />
+        </div>
+        <button type="submit" [disabled]="loginForm.invalid" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Login</button>
+    </form>
+</div>
