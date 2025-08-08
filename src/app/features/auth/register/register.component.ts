@@ -3,6 +3,7 @@ import { FormGroup, ReactiveFormsModule, Validators, FormControl } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   
   constructor(
+    private snackBarService: SnackbarService,
     private authService: AuthService,
     private router: Router
   ){
@@ -31,10 +33,17 @@ export class RegisterComponent {
     if(this.registerForm.valid){
       const { username, email, password } = this.registerForm.value;
       this.authService.register(username!, email!, password!).subscribe({
-        next: () => this.router.navigate(['/login']),
+        next: () => {
+          this.router.navigate(['/login']);
+          this.showSnackBar();
+        },
         error: (err) => alert('Falha ao registrar usuário')
       })  
     }
+  }
+
+  showSnackBar(){
+    this.snackBarService.onSnackBar('Usuário registrado com sucesso!');
   }
 
 }
