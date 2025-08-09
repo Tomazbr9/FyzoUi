@@ -18,9 +18,8 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/transactions/transactions/transactions.component').then(m => m.TransactionsComponent),
                 canActivate: [() => inject(AuthGuard).canActivate()]
             },
-    
-         
-        ]
+        ],
+        canActivate: [() => inject(AuthGuard).canActivate()]
     },
     {
         path: 'login',

@@ -17,6 +17,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   
+  
   constructor(
     private snackBarService: SnackbarService,
     private authService: AuthService,
@@ -30,6 +31,9 @@ export class RegisterComponent {
   }
 
   onSubmit() {
+
+    this.registerForm.markAllAsTouched();
+
     if(this.registerForm.valid){
       const { username, email, password } = this.registerForm.value;
       this.authService.register(username!, email!, password!).subscribe({
@@ -37,8 +41,16 @@ export class RegisterComponent {
           this.router.navigate(['/login']);
           this.showSnackBar();
         },
-        error: (err) => alert('Falha ao registrar usuário')
-      })  
+        error: (err) => {
+          if (err.error && typeof err.error === 'object') {
+            Object.entries(err.error).forEach(([field, message]) => {
+              if (this.registerForm.get(field)) {
+                this.registerForm.get(field)?.setErrors({ serverError: message });
+              }
+            });
+          }
+        }
+      });
     }
   }
 
@@ -46,4 +58,11 @@ export class RegisterComponent {
     this.snackBarService.onSnackBar('Usuário registrado com sucesso!');
   }
 
+  fieldIsInvalid(fieldName: string): boolean {
+  const field = this.registerForm.get(fieldName);
+  return !!(
+    (field?.invalid && field?.touched) ||
+    field?.errors?.['serverError']        
+  );
+}
 }

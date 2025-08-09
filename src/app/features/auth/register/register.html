@@ -10,12 +10,24 @@
         <label for="username" class="block text-sm/6 font-medium text-gray-100">Nome de usuário</label>
         <div class="mt-2">
           <input id="username" name="username" type="text" formControlName="username" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+          <span *ngIf="registerForm.get('username')?.errors?.['serverError']" class="text-red-500 text-sm">
+            {{ registerForm.get('username')?.errors?.['serverError'] }}
+          </span>
+          <span class="text-red-500 text-sm" *ngIf="registerForm.get('username')?.errors?.['required'] && registerForm.get('username')?.touched">
+            Por favor, insira um nome de usuário válido
+          </span>
         </div>
       </div>
       <div>
         <label for="email" class="block text-sm/6 font-medium text-gray-100">Email</label>
         <div class="mt-2">
           <input id="email" name="email" type="email" formControlName="email" required class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+          <span *ngIf="registerForm.get('email')?.errors?.['serverError']" class="text-red-500 text-sm">
+            {{ registerForm.get('email')?.errors?.['serverError'] }}
+          </span>
+          <span class="text-red-500 text-sm" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+            Por favor, insira um email válido
+          </span>
         </div>
       </div>
       <div>
@@ -24,9 +36,11 @@
         </div>
         <div class="mt-2">
           <input id="password" type="password" name="password" formControlName="password" required autocomplete="current-password" class="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+          <span class="text-red-500 text-sm" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+            Por favor, insira uma senha válida
+          </span>
         </div>
       </div>
-
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Registrar</button>
       </div>
