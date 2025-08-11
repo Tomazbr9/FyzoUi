@@ -25,7 +25,7 @@ export class RegisterComponent {
   ){
     this.registerForm = new FormGroup({
       username: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
   }
@@ -42,6 +42,8 @@ export class RegisterComponent {
           this.showSnackBar();
         },
         error: (err) => {
+          console.log(err.error);
+          console.log("hello");
           if (err.error && typeof err.error === 'object') {
             Object.entries(err.error).forEach(([field, message]) => {
               if (this.registerForm.get(field)) {

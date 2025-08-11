@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   loginForm: FormGroup 
+  errorMessage: string = ''
 
   constructor(
     private authService: AuthService,
@@ -25,13 +26,20 @@ export class LoginComponent {
   }
   
   onSubmit(){
+
+    this.loginForm.markAllAsTouched();
+
     if(this.loginForm.valid){
       const {username, password} = this.loginForm.value;
       this.authService.login(username!, password!).subscribe({
         next: () => this.router.navigate(['/dashboard']),
-        error: (err) => alert('Credenciais inválidas')
+        error: (err) => this.errorMessage = err.error.message || 'Erro ao fazer login. Por favor, tente novamente.'
       });
     }
+  }
+
+  FieldIsInvalid(field: string): boolean {
+    return this.loginForm.get(field)?.invalid && this.loginForm.get(field)?.touched && this.loginForm.get(field)?.errors?.['required'];
   }
 
 }
