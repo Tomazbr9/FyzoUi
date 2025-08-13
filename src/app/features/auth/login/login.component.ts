@@ -38,8 +38,8 @@ export class LoginComponent {
     }
   }
 
-  FieldIsInvalid(field: string): boolean {
-    return this.loginForm.get(field)?.invalid && this.loginForm.get(field)?.touched && this.loginForm.get(field)?.errors?.['required'];
+  FieldIsInvalid(fieldName: string): boolean {
+    return this.loginForm.get(fieldName)?.invalid && this.loginForm.get(fieldName)?.touched && this.loginForm.get(fieldName)?.errors?.['required'];
   }
 
 }

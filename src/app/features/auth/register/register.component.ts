@@ -42,8 +42,6 @@ export class RegisterComponent {
           this.showSnackBar();
         },
         error: (err) => {
-          console.log(err.error);
-          console.log("hello");
           if (err.error && typeof err.error === 'object') {
             Object.entries(err.error).forEach(([field, message]) => {
               if (this.registerForm.get(field)) {
@@ -61,10 +59,7 @@ export class RegisterComponent {
   }
 
   fieldIsInvalid(fieldName: string): boolean {
-  const field = this.registerForm.get(fieldName);
-  return !!(
-    (field?.invalid && field?.touched) ||
-    field?.errors?.['serverError']        
-  );
+    return this.registerForm.get(fieldName)?.invalid && this.registerForm.get(fieldName)?.touched && this.registerForm.get(fieldName)?.errors?.['required'];
+  }
 }
-}
+
