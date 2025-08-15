@@ -3,6 +3,7 @@ export class Transaction {
     description?: string;
     amount?: number;
     date?: Date;
+    type?: string;
 
     constructor(data?: any) {
         if (data) {
@@ -10,6 +11,7 @@ export class Transaction {
             this.description = data.description;
             this.amount = data.amount;
             this.date = new Date(data.date);
+            this.type = data.type;
         }
     }
 
