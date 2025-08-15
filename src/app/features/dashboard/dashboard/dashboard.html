@@ -12,7 +12,20 @@
         </li>
       </ul>
     </div>
-     <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
+    <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-gray-800">Minhas Contas</h2>
+        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900">add</span>
+      </div>
+      <ul class="space-y-3">
+        <li *ngFor="let account of accountsList" class="flex justify-between items-center border-b pb-2">
+          <img [src]="account.imageUrl" alt="{{ account.name }}" class="w-12 h-12 rounded-full">
+          <span class="text-gray-600">{{ account.name }}</span>
+          <span [class.text-red-600]="(account?.balance ?? 0) < 0" [class.text-green-600]="(account?.balance ?? 0) >= 0" class="font-medium">{{ account?.balance | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-800">Minhas Contas</h2>
         <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900">add</span>
