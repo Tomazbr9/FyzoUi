@@ -1,16 +1,15 @@
-export class Account {
+export class Category {
     id?: number;
     name?: string;
-    imageUrl?: string;
-    balance?: number;
+    type?: string;
+    color?: string;
 
     constructor(data?: any) {
         if (data) {
             this.id = data.id;
             this.name = data.name;
-            this.imageUrl = data.imageUrl;
-            this.balance = data.balance;
+            this.type = data.type;
+            this.color = data.color;
         }
     }
-
 }

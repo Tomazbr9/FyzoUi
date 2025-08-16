@@ -4,6 +4,8 @@ export class Transaction {
     amount?: number;
     date?: Date;
     type?: string;
+    accountId?: number;
+    categoryId?: number;
 
     constructor(data?: any) {
         if (data) {
@@ -12,6 +14,8 @@ export class Transaction {
             this.amount = data.amount;
             this.date = new Date(data.date);
             this.type = data.type;
+            this.accountId = data.accountId;
+            this.categoryId = data.categoryId;
         }
     }
 

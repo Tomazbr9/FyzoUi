@@ -5,15 +5,16 @@ import { Transaction } from "../models/transaction";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
-  private TransactionsUrl = 'http://localhost:8080/transactions';
+  private transactionsUrl = 'http://localhost:8080/transactions';
 
   constructor(private http: HttpClient) {}
 
   getTransactions(): Observable<any> {
-    return this.http.get(this.TransactionsUrl);
+    return this.http.get(this.transactionsUrl);
   }
 
   createTransaction(transaction: Transaction): Observable<Transaction> {
-    return this.http.post<Transaction>(this.TransactionsUrl, transaction);
+    console.log('Creating transaction:', transaction);
+    return this.http.post<Transaction>(this.transactionsUrl, transaction);
   }
 }
