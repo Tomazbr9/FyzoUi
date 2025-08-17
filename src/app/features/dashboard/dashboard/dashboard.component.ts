@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../core/services/account.service';
 import { ModalComponent } from "../../modal/modalTransaction/modalTransaction";
 import { SnackbarService } from '../../../core/services/snackbar.service';
+import { Page } from '../../../core/interface/page';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +34,7 @@ export class DashboardComponent implements OnInit {
 
   loadTransactions(): void {
     this.transactionsService.getTransactions().subscribe({
-      next: (data) => {
+      next: (data: Page<Transaction>) => {
         this.transactionsList = data.content.map(
           (t: Object) => new Transaction(t)
         ).slice(0, 5);

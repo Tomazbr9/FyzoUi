@@ -30,8 +30,7 @@ export class LoginComponent {
     this.loginForm.markAllAsTouched();
 
     if(this.loginForm.valid){
-      const {username, password} = this.loginForm.value;
-      this.authService.login(username!, password!).subscribe({
+      this.authService.login(this.loginForm.value).subscribe({
         next: () => this.router.navigate(['/dashboard']),
         error: (err) => this.errorMessage = err.error.message || 'Erro ao fazer login. Por favor, tente novamente.'
       });

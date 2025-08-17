@@ -60,7 +60,10 @@ export class ModalComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getCategories().subscribe(categories => {
       this.categoriesList = categories;
-      console.log('Categories loaded:', this.categoriesList);
+      
+      if(this.categoriesList.length > 0) {
+        this.transactionForm.get('categoryId')?.setValue(this.categoriesList[0].id);
+      }
     });
   }
 

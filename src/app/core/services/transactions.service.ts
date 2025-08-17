@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Transaction } from "../models/transaction";
+import { Page } from "../interface/page";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
@@ -9,12 +10,11 @@ export class TransactionsService {
 
   constructor(private http: HttpClient) {}
 
-  getTransactions(): Observable<any> {
-    return this.http.get(this.transactionsUrl);
+  getTransactions(): Observable<Page<Transaction>> {
+    return this.http.get<Page<Transaction>>(this.transactionsUrl);
   }
 
   createTransaction(transaction: Transaction): Observable<Transaction> {
-    console.log('Creating transaction:', transaction);
     return this.http.post<Transaction>(this.transactionsUrl, transaction);
   }
 }

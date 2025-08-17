@@ -35,8 +35,7 @@ export class RegisterComponent {
     this.registerForm.markAllAsTouched();
 
     if(this.registerForm.valid){
-      const { username, email, password } = this.registerForm.value;
-      this.authService.register(username!, email!, password!).subscribe({
+      this.authService.register(this.registerForm.value).subscribe({
         next: () => {
           this.router.navigate(['/login']);
           this.showSnackBar();
