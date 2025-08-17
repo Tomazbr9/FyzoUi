@@ -12,7 +12,7 @@ export class AuthService {
 
     login(user: User): Observable<LoginResponse> {
         return this.http.post<LoginResponse>(
-            `${this.apiUrl}/login`, { user }
+            `${this.apiUrl}/login`, { ...user }
         ).pipe(
             tap(response => {
                 localStorage.setItem('access_token', response.token);
@@ -21,7 +21,7 @@ export class AuthService {
     }
 
     register(user: User): Observable<User> {
-        const body = { user, role: 'ROLE_CUSTOMER' };
+        const body = { ...user, role: 'ROLE_CUSTOMER' };
         return this.http.post(`${this.apiUrl}/register`, body);
     }
 

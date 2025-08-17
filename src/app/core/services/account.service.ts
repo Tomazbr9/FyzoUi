@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account } from '../models/account';
 
-
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     private accountsUrl = 'http://localhost:8080/accounts';

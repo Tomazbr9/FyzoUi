@@ -58,8 +58,8 @@ export class ModalComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe(categories => {
-      this.categoriesList = categories;
+    this.categoryService.getCategories().subscribe(data => {
+      this.categoriesList = data;
       
       if(this.categoriesList.length > 0) {
         this.transactionForm.get('categoryId')?.setValue(this.categoriesList[0].id);
@@ -68,8 +68,8 @@ export class ModalComponent implements OnInit {
   }
 
   loadAccounts(): void {
-    this.accountService.getAccounts().subscribe(accounts => {
-      this.accountsList = accounts;
+    this.accountService.getAccounts().subscribe(data => {
+      this.accountsList = data;
     });
   }
   

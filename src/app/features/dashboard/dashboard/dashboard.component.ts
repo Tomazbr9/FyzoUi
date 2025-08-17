@@ -8,6 +8,8 @@ import { AccountService } from '../../../core/services/account.service';
 import { ModalComponent } from "../../modal/modalTransaction/modalTransaction";
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { Page } from '../../../core/interface/page';
+import { Category } from '../../../core/models/category';
+import { CategoryService } from '../../../core/services/category.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,16 +22,19 @@ export class DashboardComponent implements OnInit {
   showModal: boolean = false
   transactionsList: Transaction[] = [];
   accountsList: Account[] = [];
+  categoriesList: Category[] = []
 
   constructor(
     private transactionsService: TransactionsService,
     private accountService: AccountService,
+    private categoryService: CategoryService,
     private snackBarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
     this.loadTransactions();
     this.loadAccounts();
+    this.loadCategories();
   }
 
   loadTransactions(): void {
@@ -48,16 +53,24 @@ export class DashboardComponent implements OnInit {
 
   loadAccounts(): void {
     this.accountService.getAccounts().subscribe({
-      next: (data) => {
-        this.accountsList = data.map(
-          (a: Object) => new Account(a)
-        );
-        console.log(this.accountsList);
-      },
+      next: (data: Account[]) => this.accountsList = data,
       error: (error) => {
-        console.error('Error fetching accounts:', error);
+        console.error('Error fetching accounts: ', error);
       }
     });
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (data: Category[]) => {
+        this.categoriesList = data
+        console.log(data)
+      },
+      error(error) {
+        console.error('Error fetching categories: ', error);
+      },
+    })
+
   }
 
   createTransaction(transaction: Transaction): void {
