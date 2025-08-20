@@ -1,8 +1,7 @@
-import { Component, Output } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { Transaction } from '../../../core/models/transaction';
-import { EventEmitter, Input } from '@angular/core';
 import { CategoryService } from '../../../core/services/category.service';
 import { Category } from '../../../core/models/category';
 import { OnInit } from '@angular/core';
@@ -40,7 +39,7 @@ export class ModalComponent implements OnInit {
     this.transactionForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      date: new FormControl(new Date(), Validators.required),
+      date: new FormControl('', Validators.required),
       amount: new FormControl('', [Validators.required, Validators.min(0)]),
       categoryId: new FormControl('', Validators.required),
       accountId: new FormControl('', Validators.required),
@@ -77,6 +76,10 @@ export class ModalComponent implements OnInit {
   loadAccounts(): void {
     this.accountService.getAccounts().subscribe(data => {
       this.accountsList = data;
+
+      if(this.categoriesList.length > 0) {
+        this.transactionForm.get('accountId')?.setValue(this.accountsList[0].id);
+      }
     });
   }
   

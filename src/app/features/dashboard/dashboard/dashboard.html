@@ -3,11 +3,15 @@
     <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-800">Ultimas transações</h2>
-        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900" (click)="openModal()">add</span>
+        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900" (click)="openTransactionModal()">add</span>
+      </div>
+      <div *ngIf="transactionsList.length === 0" class="text-gray-500 text-center py-4">
+        Nenhuma transação encontrada.
       </div>
       <ul class="space-y-3">
         <li *ngFor="let transaction of transactionsList" class="flex justify-between items-center border-b pb-2">
           <span class="text-gray-600">{{ transaction.title }}</span>
+          <span class="text-gray-600">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
           <span [class.text-red-600]="transaction.type === 'EXPENSE'" [class.text-green-600]="transaction.type === 'REVENUE'" class="font-medium">{{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }}</span>
         </li>
       </ul>
@@ -15,7 +19,7 @@
     <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-800">Minhas Contas</h2>
-        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900">add</span>
+        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900" (click)="openAccountModal()">add</span>
       </div>
       <ul class="space-y-3">
         <li *ngFor="let account of accountsList" class="flex justify-between items-center border-b pb-2">
@@ -38,9 +42,16 @@
       </ul>
     </div>
   </div>
+  
   <app-transaction-modal
-    [isOpen]="showModal"
-    (closeModal)="showModal = false"
+    [isOpen]="showTransactionModal"
+    (closeModal)="showTransactionModal = false"
     (submitForm)="createTransaction($event)">
   </app-transaction-modal>
+
+  <app-account-modal
+    [isOpen]="showAccountModal"
+    (closeModal)="showAccountModal = false"
+    (submitForm)="createAccount($event)">
+  </app-account-modal>
 </main>

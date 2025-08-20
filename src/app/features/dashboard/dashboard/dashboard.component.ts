@@ -5,21 +5,23 @@ import { Transaction } from '../../../core/models/transaction';
 import { Account } from '../../../core/models/account';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../core/services/account.service';
-import { ModalComponent } from "../../modal/modalTransaction/modalTransaction";
+import { ModalComponent } from "../../modal/modal-transaction/modalTransaction";
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { Page } from '../../../core/interface/page';
 import { Category } from '../../../core/models/category';
 import { CategoryService } from '../../../core/services/category.service';
+import { ModalAccount } from "../../modal/modal-account/modal-account";
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, ModalComponent],
+  imports: [CommonModule, ModalComponent, ModalAccount],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
 
-  showModal: boolean = false
+  showTransactionModal: boolean = false
+  showAccountModal: boolean = false
   transactionsList: Transaction[] = [];
   accountsList: Account[] = [];
   categoriesList: Category[] = []
@@ -76,18 +78,28 @@ export class DashboardComponent implements OnInit {
   createTransaction(transaction: Transaction): void {
     this.transactionsService.createTransaction(
       transaction).subscribe({
-        next: () => this.showSnackBar(),
-        error: (error) => {
-          console.error('Error creating transaction:', error);
-        }
+        next: () => this.showSnackBar('Transação criada com sucesso!'),
+        error: (error) => console.error('Error creating transaction:', error)
       });
   }
 
-  openModal(): void {
-    this.showModal = true;
+  createAccount(account: Account): void {
+    this.accountService.createAccount(
+      account).subscribe({
+        next: () => this.showSnackBar('Conta criada com sucesso!'),
+        error: (error) => console.error('Error creating account:', error)
+      });
   }
 
-  showSnackBar(){
-    this.snackBarService.onSnackBar('Transação criada com sucesso!');
+  openTransactionModal(): void {
+    this.showTransactionModal = true;
+  }
+
+  openAccountModal(): void {
+    this.showAccountModal = true;
+  }
+
+  showSnackBar(message: string){
+    this.snackBarService.onSnackBar(message);
   }
 }
