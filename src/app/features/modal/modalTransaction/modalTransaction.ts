@@ -8,10 +8,17 @@ import { Category } from '../../../core/models/category';
 import { OnInit } from '@angular/core';
 import { AccountService } from '../../../core/services/account.service';
 import { Account } from '../../../core/models/account';
+import {NgxMaskDirective, provideNgxMask} from 'ngx-mask'
 
 @Component({
   selector: 'app-transaction-modal',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgxMaskDirective
+  ], providers: [
+    provideNgxMask()
+  ],
   templateUrl: './modalTransaction.html',
   styleUrl: './modalTransaction.scss'
 })
@@ -34,7 +41,7 @@ export class ModalComponent implements OnInit {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       date: new FormControl(new Date(), Validators.required),
-      amount: new FormControl(0, [Validators.required, Validators.min(0)]),
+      amount: new FormControl('', [Validators.required, Validators.min(0)]),
       categoryId: new FormControl('', Validators.required),
       accountId: new FormControl('', Validators.required),
       type: new FormControl('REVENUE', Validators.required) 
