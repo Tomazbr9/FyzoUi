@@ -2,7 +2,7 @@ export class Transaction {
     title?: string;
     description?: string;
     amount?: number;
-    date?: Date;
+    date?: string;
     type?: string;
     accountId?: number;
     categoryId?: number;
@@ -12,7 +12,7 @@ export class Transaction {
             this.title = data.title;
             this.description = data.description;
             this.amount = data.amount;
-            this.date = new Date(data.date);
+            this.date = data.date;
             this.type = data.type;
             this.accountId = data.accountId;
             this.categoryId = data.categoryId;
