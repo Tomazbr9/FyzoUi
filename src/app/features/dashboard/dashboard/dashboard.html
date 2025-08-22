@@ -34,7 +34,7 @@
           <h3 class="text-sm font-medium text-gray-600">Saldo</h3>
           <span class="material-symbols-outlined text-indigo-600">account_balance_wallet</span>
         </div>
-        <p [class.text-red-600]="(balance?.balance ?? 0) < 0" [class.text-green-600]="(balance?.balance ?? 0) > 0" class="mt-3 text-3xl font-bold text-gray-900">
+        <p [class.text-red-600]="balance.balance < 0" [class.text-green-600]="balance.balance > 0" class="mt-3 text-3xl font-bold text-gray-900">
           {{ balance.balance | currency:'BRL':'symbol':'1.2-2' }}
         </p>
         <p class="mt-1 text-xs text-gray-500">Receitas – Despesas</p>
