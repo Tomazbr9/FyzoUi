@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Transaction } from "../models/transaction";
 import { Page } from "../interface/page";
+import { Balance } from "../interface/balance";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
@@ -15,7 +16,11 @@ export class TransactionsService {
   }
 
   createTransaction(transaction: Transaction): Observable<Transaction> {
-    console.log(transaction)
     return this.http.post<Transaction>(this.transactionsUrl, transaction);
   }
+
+  returnBalance(): Observable<Balance> {
+    return this.http.get<Balance>(`${this.transactionsUrl}/balance`)
+  }
+
 }

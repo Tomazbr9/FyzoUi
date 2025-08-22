@@ -1,57 +1,126 @@
-<main class="p-6">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800">Ultimas transações</h2>
-        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900" (click)="openTransactionModal()">add</span>
-      </div>
-      <div *ngIf="transactionsList.length === 0" class="text-gray-500 text-center py-4">
-        Nenhuma transação encontrada.
-      </div>
-      <ul class="space-y-3">
-        <li *ngFor="let transaction of transactionsList" class="flex justify-between items-center border-b pb-2">
-          <span class="text-gray-600">{{ transaction.title }}</span>
-          <span class="text-gray-600">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
-          <span [class.text-red-600]="transaction.type === 'EXPENSE'" [class.text-green-600]="transaction.type === 'REVENUE'" class="font-medium">{{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }}</span>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800">Minhas Contas</h2>
-        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900" (click)="openAccountModal()">add</span>
-      </div>
-      <ul class="space-y-3">
-        <li *ngFor="let account of accountsList" class="flex justify-between items-center border-b pb-2">
-          <img [src]="account.imageUrl" alt="{{ account.name }}" class="w-12 h-12 rounded-full">
-          <span class="text-gray-600">{{ account.name }}</span>
-          <span [class.text-red-600]="(account?.balance ?? 0) < 0" [class.text-green-600]="(account?.balance ?? 0) > 0" class="font-medium">{{ account?.balance | currency:'BRL':'symbol':'1.2-2' }}</span>
-        </li>
-      </ul>
-    </div>
-    <div class="bg-white rounded-xl shadow-md p-6 w-full md:w-80">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold text-gray-800">Minhas Categorias</h2>
-        <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900">add</span>
-      </div>
-      <ul class="space-y-3">
-        <li *ngFor="let category of categoriesList" class="flex justify-between items-center border-b pb-2">
-          <span [style.background-color]="category.color" class="material-symbols-outlined text-white border-1 p-2 rounded-full">{{ category.icon }}</span>
-          <span class="text-gray-600">{{ category.name }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-  <app-transaction-modal
-    [isOpen]="showTransactionModal"
-    (closeModal)="showTransactionModal = false"
-    (submitForm)="createTransaction($event)">
-  </app-transaction-modal>
+<main class="p-6 bg-gray-50 min-h-screen">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
 
-  <app-account-modal
-    [isOpen]="showAccountModal"
-    (closeModal)="showAccountModal = false"
-    (submitForm)="createAccount($event)">
-  </app-account-modal>
+    <!-- Cards de totais -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+      <!-- Receitas -->
+      <div class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-black/5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-medium text-gray-600">Receitas</h3>
+          <span class="material-symbols-outlined text-emerald-600">trending_up</span>
+        </div>
+        <p class="mt-3 text-3xl font-bold text-gray-900">
+          {{ balance.totalRevenue| currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+        <p class="mt-1 text-xs text-gray-500">Últimos 30 dias</p>
+      </div>
+
+      <!-- Despesas -->
+      <div class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-black/5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-medium text-gray-600">Despesas</h3>
+          <span class="material-symbols-outlined text-rose-600">trending_down</span>
+        </div>
+        <p class="mt-3 text-3xl font-bold text-gray-900">
+          {{ balance.totalExpense | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+        <p class="mt-1 text-xs text-gray-500">Últimos 30 dias</p>
+      </div>
+
+      <!-- Saldo -->
+      <div class="rounded-2xl bg-white p-6 shadow-md ring-1 ring-black/5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-medium text-gray-600">Saldo</h3>
+          <span class="material-symbols-outlined text-indigo-600">account_balance_wallet</span>
+        </div>
+        <p [class.text-red-600]="(balance?.balance ?? 0) < 0" [class.text-green-600]="(balance?.balance ?? 0) > 0" class="mt-3 text-3xl font-bold text-gray-900">
+          {{ balance.balance | currency:'BRL':'symbol':'1.2-2' }}
+        </p>
+        <p class="mt-1 text-xs text-gray-500">Receitas – Despesas</p>
+      </div>
+    </div>
+
+    <!-- Cards secundários -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Últimas Transações -->
+      <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Últimas Transações</h2>
+          <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900 p-1"
+            (click)="openTransactionModal()">add</span>
+        </div>
+
+        <div *ngIf="transactionsList.length === 0" class="text-gray-500 text-center py-4">
+          Nenhuma transação encontrada.
+        </div>
+
+        <ul class="space-y-3">
+          <li *ngFor="let transaction of transactionsList"
+              class="flex justify-between items-center border-b pb-2">
+            <span class="text-gray-600">{{ transaction.title }}</span>
+            <span class="text-gray-500 text-sm">{{ transaction.date | date:'dd/MM/yyyy' }}</span>
+            <span [class.text-red-600]="transaction.type === 'EXPENSE'"
+                  [class.text-green-600]="transaction.type === 'REVENUE'"
+                  class="font-medium">
+              {{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Minhas Contas -->
+      <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Minhas Contas</h2>
+          <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900 p-1"
+            (click)="openAccountModal()">add</span>
+        </div>
+        <ul class="space-y-3">
+          <li *ngFor="let account of accountsList"
+              class="flex justify-between items-center border-b pb-2">
+            <img [src]="account.imageUrl" alt="{{ account.name }}" class="w-10 h-10 rounded-full">
+            <span class="flex-1 ml-3 text-gray-600">{{ account.name }}</span>
+            <span [class.text-red-600]="(account?.balance ?? 0) < 0"
+                  [class.text-green-600]="(account?.balance ?? 0) > 0"
+                  class="font-medium">
+              {{ account?.balance | currency:'BRL':'symbol':'1.2-2' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Minhas Categorias -->
+      <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Minhas Categorias</h2>
+          <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900 p-1">add</span>
+        </div>
+        <ul class="space-y-3">
+          <li *ngFor="let category of categoriesList"
+              class="flex justify-start items-center gap-3 border-b pb-2">
+            <span [style.background-color]="category.color"
+                  class="material-symbols-outlined text-white p-2 rounded-full">
+              {{ category.icon }}
+            </span>
+            <span class="text-gray-600">{{ category.name }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Modais -->
+    <app-transaction-modal
+      [isOpen]="showTransactionModal"
+      (closeModal)="showTransactionModal = false"
+      (submitForm)="createTransaction($event)">
+    </app-transaction-modal>
+
+    <app-account-modal
+      [isOpen]="showAccountModal"
+      (closeModal)="showAccountModal = false"
+      (submitForm)="createAccount($event)">
+    </app-account-modal>
+  </div>
 </main>

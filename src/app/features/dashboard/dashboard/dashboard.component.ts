@@ -11,6 +11,7 @@ import { Page } from '../../../core/interface/page';
 import { Category } from '../../../core/models/category';
 import { CategoryService } from '../../../core/services/category.service';
 import { ModalAccount } from "../../modal/modal-account/modal-account";
+import { Balance } from '../../../core/interface/balance';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,8 @@ export class DashboardComponent implements OnInit {
   showAccountModal: boolean = false
   transactionsList: Transaction[] = [];
   accountsList: Account[] = [];
-  categoriesList: Category[] = []
+  categoriesList: Category[] = [];
+  balance!: Balance;
 
   constructor(
     private transactionsService: TransactionsService,
@@ -37,6 +39,7 @@ export class DashboardComponent implements OnInit {
     this.loadTransactions();
     this.loadAccounts();
     this.loadCategories();
+    this.loadBalance();
   }
 
   loadTransactions(): void {
@@ -56,23 +59,15 @@ export class DashboardComponent implements OnInit {
   loadAccounts(): void {
     this.accountService.getAccounts().subscribe({
       next: (data: Account[]) => this.accountsList = data,
-      error: (error) => {
-        console.error('Error fetching accounts: ', error);
-      }
+      error: (error) => console.error('Error fetching accounts: ', error)
     });
   }
 
   loadCategories(): void {
     this.categoryService.getCategories().subscribe({
-      next: (data: Category[]) => {
-        this.categoriesList = data
-        console.log(data)
-      },
-      error(error) {
-        console.error('Error fetching categories: ', error);
-      },
+      next: (data: Category[]) => this.categoriesList = data,
+      error: (error) => console.error('Error fetching categories: ', error)
     })
-
   }
 
   createTransaction(transaction: Transaction): void {
@@ -89,6 +84,16 @@ export class DashboardComponent implements OnInit {
         next: () => this.showSnackBar('Conta criada com sucesso!'),
         error: (error) => console.error('Error creating account:', error)
       });
+  }
+
+  loadBalance(): void {
+    this.transactionsService.returnBalance().subscribe({
+      next: (data: Balance) => {
+        console.log(data)
+        this.balance = data;
+      },
+      error: (error) => console.error("Error returning balance: ", error) 
+    })
   }
 
   openTransactionModal(): void {

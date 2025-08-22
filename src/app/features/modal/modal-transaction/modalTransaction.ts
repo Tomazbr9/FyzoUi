@@ -77,7 +77,7 @@ export class ModalComponent implements OnInit {
     this.accountService.getAccounts().subscribe(data => {
       this.accountsList = data;
 
-      if(this.categoriesList.length > 0) {
+      if(this.accountsList.length > 0) {
         this.transactionForm.get('accountId')?.setValue(this.accountsList[0].id);
       }
     });
