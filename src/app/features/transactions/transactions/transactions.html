@@ -3,7 +3,7 @@
   <!-- Header com título e botão de adicionar -->
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
     <h1 class="text-2xl font-semibold text-gray-800">Transações</h1>
-    <button
+    <button (click)="openTransactionModal()"
             class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
       Nova Transação
     </button>
@@ -30,11 +30,12 @@
       <label for="categoryFilter" class="text-sm font-medium text-gray-700">Categoria</label>
       <select id="categoryFilter" formControlName="category" class="mt-1 p-2 border rounded-lg w-full md:w-48">
         <option value="">Todas</option>
-        <option ></option>
+        <option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</option>
       </select>
     </div>
 
-    <button class="self-end md:self-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+    <button (click)="applyFilters()"
+            class="self-end md:self-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
       Filtrar
     </button>
   </div>
@@ -51,29 +52,30 @@
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
-        <tr >
-          <td class="px-6 py-4 whitespace-nowrap text-gray-700">transacao</td>
-          <td class="px-6 py-4 whitespace-nowrap text-gray-700">categoria</td>
-          <td class="px-6 py-4 whitespace-nowrap text-gray-700">10/10/2024</td>
+        <tr *ngFor="let transaction of transactionsList">
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ transaction.title }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ transaction.categoryId }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ transaction.date | date:'dd/MM/yyyy' }}</td>
           <td class="px-6 py-4 whitespace-nowrap font-semibold"
-              >
-            {{ 0.0 | currency:'BRL':'symbol':'1.2-2' }}
+              [class.text-green-600]="transaction.type === 'REVENUE'"
+              [class.text-red-600]="transaction.type === 'EXPENSE'">
+            {{ transaction.amount | currency:'BRL':'symbol':'1.2-2' }}
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="transactionsList.length === 0">
           <td colspan="4" class="px-6 py-4 text-center text-gray-500">Nenhuma transação encontrada.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Paginação -->
+  <!-- Paginação
   <div class="flex justify-end mt-4 gap-2">
-    <button  
+    <button (click)="previousPage()" [disabled]="currentPage === 1"
             class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">Anterior</button>
-    <span class="px-3 py-1 text-gray-700"></span>
-    <button 
+    <span class="px-3 py-1 text-gray-700">{{ currentPage }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages"
             class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">Próximo</button>
-  </div>
+  </div> -->
 
 </main>
