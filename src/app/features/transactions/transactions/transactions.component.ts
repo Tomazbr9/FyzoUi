@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-transactions',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './transactions.html',
   styleUrl: './transactions.scss'
 })

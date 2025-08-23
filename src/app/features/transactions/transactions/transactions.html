@@ -1,1 +1,79 @@
-<p>transactions works!</p>
+<main class="p-6 bg-gray-50 min-h-screen">
+
+  <!-- Header com título e botão de adicionar -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <h1 class="text-2xl font-semibold text-gray-800">Transações</h1>
+    <button
+            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+      Nova Transação
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
+    
+    <div class="flex flex-col">
+      <label for="monthFilter" class="text-sm font-medium text-gray-700">Mês</label>
+      <input type="month" id="monthFilter" formControlName="month" class="mt-1 p-2 border rounded-lg w-full md:w-48">
+    </div>
+
+    <div class="flex flex-col">
+      <label for="typeFilter" class="text-sm font-medium text-gray-700">Tipo</label>
+      <select id="typeFilter" formControlName="type" class="mt-1 p-2 border rounded-lg w-full md:w-48">
+        <option value="">Todos</option>
+        <option value="REVENUE">Receita</option>
+        <option value="EXPENSE">Despesa</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col">
+      <label for="categoryFilter" class="text-sm font-medium text-gray-700">Categoria</label>
+      <select id="categoryFilter" formControlName="category" class="mt-1 p-2 border rounded-lg w-full md:w-48">
+        <option value="">Todas</option>
+        <option ></option>
+      </select>
+    </div>
+
+    <button class="self-end md:self-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+      Filtrar
+    </button>
+  </div>
+
+  <!-- Tabela de transações -->
+  <div class="bg-white rounded-xl shadow-sm overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr >
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">transacao</td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">categoria</td>
+          <td class="px-6 py-4 whitespace-nowrap text-gray-700">10/10/2024</td>
+          <td class="px-6 py-4 whitespace-nowrap font-semibold"
+              >
+            {{ 0.0 | currency:'BRL':'symbol':'1.2-2' }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="px-6 py-4 text-center text-gray-500">Nenhuma transação encontrada.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginação -->
+  <div class="flex justify-end mt-4 gap-2">
+    <button  
+            class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">Anterior</button>
+    <span class="px-3 py-1 text-gray-700"></span>
+    <button 
+            class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50">Próximo</button>
+  </div>
+
+</main>

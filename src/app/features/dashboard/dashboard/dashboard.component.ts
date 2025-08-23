@@ -87,9 +87,8 @@ export class DashboardComponent implements OnInit {
   }
 
   loadBalance(): void {
-    this.transactionsService.returnBalance().subscribe({
+    this.transactionsService.getBalance().subscribe({
       next: (data: Balance) => {
-        console.log(data)
         this.balance = data;
       },
       error: (error) => console.error("Error returning balance: ", error) 

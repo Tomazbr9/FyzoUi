@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Transaction } from "../models/transaction";
 import { Page } from "../interface/page";
 import { Balance } from "../interface/balance";
+import { SummaryTransaction } from "../interface/summaryTransaction";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
@@ -19,8 +20,16 @@ export class TransactionsService {
     return this.http.post<Transaction>(this.transactionsUrl, transaction);
   }
 
-  returnBalance(): Observable<Balance> {
-    return this.http.get<Balance>(`${this.transactionsUrl}/balance`)
+  getBalance(): Observable<Balance> {
+    return this.http.get<Balance>(`${this.transactionsUrl}/balance`);
+  }
+
+  getExpensesByCategory(): Observable<SummaryTransaction[]>{
+    return this.http.get<SummaryTransaction[]>(`${this.transactionsUrl}/summary/expense`);
+  }
+
+  getRevenuesByCategory(): Observable<SummaryTransaction[]>{
+    return this.http.get<SummaryTransaction[]>(`${this.transactionsUrl}/summary/revenue`);
   }
 
 }
