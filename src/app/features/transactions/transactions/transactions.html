@@ -10,7 +10,7 @@
   </div>
 
   <!-- Filtros -->
-  <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
     
     <div class="flex flex-col">
       <label for="monthFilter" class="text-sm font-medium text-gray-700">Mês</label>
@@ -28,17 +28,18 @@
 
     <div class="flex flex-col">
       <label for="categoryFilter" class="text-sm font-medium text-gray-700">Categoria</label>
-      <select id="categoryFilter" formControlName="category" class="mt-1 p-2 border rounded-lg w-full md:w-48">
+      <select id="categoryFilter" formControlName="categoryId" class="mt-1 p-2 border rounded-lg w-full md:w-48">
         <option value="">Todas</option>
         <option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</option>
       </select>
     </div>
-
-    <button (click)="applyFilters()"
-            class="self-end md:self-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-      Filtrar
-    </button>
-  </div>
+    <div class="flex flex-col">
+      <label class="invisible text-sm">Filtrar</label> 
+      <button type="submit" class="self-end md:self-auto px-4 py-2  bg-indigo-700 hover:bg-indigo-900 text-white rounded-lg">
+        Filtrar
+      </button>
+    </div>
+  </form>
 
   <!-- Tabela de transações -->
   <div class="bg-white rounded-xl shadow-sm overflow-x-auto">

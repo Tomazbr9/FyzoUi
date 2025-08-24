@@ -12,8 +12,8 @@ export class TransactionsService {
 
   constructor(private http: HttpClient) {}
 
-  getTransactions(): Observable<Page<Transaction>> {
-    return this.http.get<Page<Transaction>>(this.transactionsUrl);
+  getTransactions(filters?: any): Observable<Page<Transaction>> {
+    return this.http.get<Page<Transaction>>(this.transactionsUrl, {params: filters});
   }
 
   createTransaction(transaction: Transaction): Observable<Transaction> {
