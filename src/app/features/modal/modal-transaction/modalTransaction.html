@@ -26,7 +26,7 @@
         <label for="category" class="block text-sm font-medium text-black">Categoria</label>
         <select name="categoryId" formControlName="categoryId"
           class="mt-2 w-full p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-indigo-400">
-          <option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</option>
+          <option *ngFor="let category of categoriesList" [ngValue]="category.id">{{ category.name }}</option>
         </select>
       </div>
 
@@ -43,7 +43,7 @@
         <label for="account" class="block text-sm font-medium text-black">Conta</label>
         <select name="accountId" formControlName="accountId"
           class="mt-2 w-full p-3 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-indigo-400">
-          <option *ngFor="let account of accountsList" [value]="account.id">{{ account.name }}</option>
+          <option *ngFor="let account of accountsList" [ngValue]="account.id">{{ account.name }}</option>
         </select>
       </div>
 
