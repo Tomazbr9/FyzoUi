@@ -92,7 +92,7 @@
       <div class="bg-white rounded-xl shadow-md ring-1 ring-black/5 p-6">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold text-gray-800">Minhas Categorias</h2>
-          <span class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900 p-1">add</span>
+          <span (click)="openCategoryModal()" class="material-symbols-outlined text-white cursor-pointer border-2 rounded-full bg-indigo-700 hover:bg-indigo-900 p-1">add</span>
         </div>
         <ul class="space-y-3">
           <li *ngFor="let category of categoriesList"
@@ -119,5 +119,11 @@
       (closeModal)="showAccountModal = false"
       (submitForm)="createAccount($event)">
     </app-account-modal>
+
+    <app-category-modal
+      [isOpen]="showCategoryModal"
+      (closeModal)="showCategoryModal = false"
+      (submitForm)="createCategory($event)">
+    </app-category-modal>
   </div>
 </main>

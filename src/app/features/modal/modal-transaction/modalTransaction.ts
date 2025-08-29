@@ -21,11 +21,16 @@ import {NgxMaskDirective, provideNgxMask} from 'ngx-mask'
   templateUrl: './modalTransaction.html',
   styleUrl: './modalTransaction.scss'
 })
-export class ModalComponent implements OnInit {
+export class ModalTransactionComponent implements OnInit {
 
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
   @Output() submitForm = new EventEmitter<Transaction>();
+
+  transactionTypes = [
+    { value: 'EXPENSE', label: 'Despesa' },
+    { value: 'REVENUE', label: 'Receita' }
+  ];
 
   transactionForm: FormGroup
 

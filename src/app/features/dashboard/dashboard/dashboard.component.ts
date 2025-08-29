@@ -5,24 +5,27 @@ import { Transaction } from '../../../core/models/transaction';
 import { Account } from '../../../core/models/account';
 import { CommonModule } from '@angular/common';
 import { AccountService } from '../../../core/services/account.service';
-import { ModalComponent } from "../../modal/modal-transaction/modalTransaction";
 import { SnackbarService } from '../../../core/services/snackbar.service';
 import { Page } from '../../../core/interface/page';
 import { Category } from '../../../core/models/category';
 import { CategoryService } from '../../../core/services/category.service';
-import { ModalAccount } from "../../modal/modal-account/modal-account";
+import { ModalAccountComponent } from "../../modal/modal-account/modal-account";
+import { ModalCategoryComponent } from '../../modal/modal-category/modal-category';
+import { ModalTransactionComponent } from "../../modal/modal-transaction/modalTransaction";
 import { Balance } from '../../../core/interface/balance';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, ModalComponent, ModalAccount],
+  imports: [CommonModule, ModalTransactionComponent, ModalAccountComponent, ModalCategoryComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
 
-  showTransactionModal: boolean = false
-  showAccountModal: boolean = false
+  showTransactionModal: boolean = false;
+  showAccountModal: boolean = false;
+  showCategoryModal: boolean = false;
+
   transactionsList: Transaction[] = [];
   accountsList: Account[] = [];
   categoriesList: Category[] = [];
@@ -73,7 +76,12 @@ export class DashboardComponent implements OnInit {
   createTransaction(transaction: Transaction): void {
     this.transactionsService.createTransaction(
       transaction).subscribe({
-        next: () => this.showSnackBar('Transação criada com sucesso!'),
+        next: () => {
+          this.showSnackBar('Transação criada com sucesso!');
+          this.loadTransactions();
+          this.loadBalance();
+          this.loadAccounts();
+        },
         error: (error) => console.error('Error creating transaction:', error)
       });
   }
@@ -81,8 +89,22 @@ export class DashboardComponent implements OnInit {
   createAccount(account: Account): void {
     this.accountService.createAccount(
       account).subscribe({
-        next: () => this.showSnackBar('Conta criada com sucesso!'),
+        next: () => {
+          this.showSnackBar('Conta criada com sucesso!');
+          this.loadAccounts();
+        },
         error: (error) => console.error('Error creating account:', error)
+      });
+  }
+
+  createCategory(category: Category): void {
+    this.categoryService.createCategory(
+      category).subscribe({
+        next: () => {
+          this.showSnackBar('Categoria criada com sucesso!');
+          this.loadCategories();
+        },
+        error: (error) => console.error('Error creating category:', error)
       });
   }
 
@@ -101,6 +123,10 @@ export class DashboardComponent implements OnInit {
 
   openAccountModal(): void {
     this.showAccountModal = true;
+  }
+
+  openCategoryModal(): void {
+    this.showCategoryModal = true;
   }
 
   showSnackBar(message: string){

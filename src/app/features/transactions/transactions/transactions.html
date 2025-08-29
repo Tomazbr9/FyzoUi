@@ -4,19 +4,31 @@
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
     <h1 class="text-2xl font-semibold text-gray-800">Transações</h1>
     <button
-            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+      class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
       Nova Transação
     </button>
   </div>
 
   <!-- Filtros -->
-  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
-    
-    <div class="flex flex-col">
-      <label for="monthFilter" class="text-sm font-medium text-gray-700">Mês</label>
-      <input type="month" id="monthFilter" formControlName="month" class="mt-1 p-2 border rounded-lg w-full md:w-48">
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" 
+        class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+
+    <!-- Navegação de mês -->
+    <div class="flex items-center gap-4">
+      <button type="button" (click)="previousMonth()" 
+              class="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition">
+        ◀
+      </button>
+      <span class="text-lg font-semibold text-gray-700">
+        {{ currentMonthName }} / {{ currentYear }}
+      </span>
+      <button type="button" (click)="nextMonth()" 
+              class="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition">
+        ▶
+      </button>
     </div>
 
+    <!-- Tipo -->
     <div class="flex flex-col">
       <label for="typeFilter" class="text-sm font-medium text-gray-700">Tipo</label>
       <select id="typeFilter" formControlName="type" class="mt-1 p-2 border rounded-lg w-full md:w-48">
@@ -26,6 +38,7 @@
       </select>
     </div>
 
+    <!-- Categoria -->
     <div class="flex flex-col">
       <label for="categoryFilter" class="text-sm font-medium text-gray-700">Categoria</label>
       <select id="categoryFilter" formControlName="categoryId" class="mt-1 p-2 border rounded-lg w-full md:w-48">
@@ -33,9 +46,12 @@
         <option *ngFor="let category of categoriesList" [value]="category.id">{{ category.name }}</option>
       </select>
     </div>
+
+    <!-- Botão filtrar -->
     <div class="flex flex-col">
-      <label class="invisible text-sm">Filtrar</label> 
-      <button type="submit" class="self-end md:self-auto px-4 py-2  bg-indigo-700 hover:bg-indigo-900 text-white rounded-lg">
+      <label class="invisible text-sm">Filtrar</label>
+      <button type="submit" 
+              class="px-4 py-2 bg-indigo-700 hover:bg-indigo-900 text-white rounded-lg">
         Filtrar
       </button>
     </div>

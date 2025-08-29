@@ -19,6 +19,9 @@ export class TransactionsComponent implements OnInit {
   transactionsList: Transaction[] = [];
   categoriesList: Category[] = [];
 
+  currentMonth: number = new Date().getMonth() + 1;
+  currentYear: number = new Date().getFullYear();
+
   filterForm: FormGroup;
 
   constructor(
@@ -26,12 +29,11 @@ export class TransactionsComponent implements OnInit {
     private categoryService: CategoryService
   ){
     this.filterForm = new FormGroup({
-      type: new FormControl(''),
       month: new FormControl(''),
+      year: new FormControl(''),
+      type: new FormControl(''),
       categoryId: new FormControl(''),
       accountId: new FormControl(''),
-      startDate: new FormControl(''),
-      endDate: new FormControl('')
     })
   }
 
@@ -71,22 +73,43 @@ export class TransactionsComponent implements OnInit {
     return category?.name ?? "-";
   }
 
+  get currentMonthName(): string {
+    return new Date(this.currentYear, this.currentMonth - 1).toLocaleString('pt-BR', { month: 'long' });
+  }
+
+  previousMonth(): void {
+    if (this.currentMonth === 1) {
+      this.currentMonth = 12;
+      this.currentYear--;
+    } else {
+      this.currentMonth--;
+    }
+    this.applyFilters();
+  }
+
+  nextMonth(): void {
+    if (this.currentMonth === 12) {
+      this.currentMonth = 1;
+      this.currentYear++;
+    } else {
+      this.currentMonth++;
+    }
+    this.applyFilters();
+  }
+
   applyFilters(): void {
+    const month = this.currentMonth;
+    const year = this.currentYear;
     const type = this.filterForm.get('type')?.value;
-    const month = this.filterForm.get('month')?.value;
     const categoryId = this.filterForm.get('categoryId')?.value;
     const accountId = this.filterForm.get('accountId')?.value;
-    const startDate = this.filterForm.get('startDate')?.value;
-    const endDate = this.filterForm.get('endDate')?.value;
-
     const params: any = {};
 
     if (type) params.type = type;
     if (month) params.month = month;
+    if (year) params.year = year;
     if (categoryId) params.categoryId = categoryId;
     if (accountId) params.accountId = accountId;
-    if (startDate) params.startDate = startDate;
-    if (endDate) params.endDate = endDate;
   
     this.transactionService.getTransactions(params).subscribe({
       next: (data: Page<Transaction>) => {

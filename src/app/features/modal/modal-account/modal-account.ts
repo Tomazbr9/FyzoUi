@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './modal-account.html',
   styleUrl: './modal-account.scss'
 })
-export class ModalAccount {
+export class ModalAccountComponent {
 
   @Input() isOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
